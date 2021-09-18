@@ -96,3 +96,13 @@ if(<role> -eq 'Member'){
 }
 ```
 - An owner member must be registered as an ordinary member in advance. 
+
+
+---
+
+## Note
+- Member list of a private channel which you are not an owner CANNOT be obtained.
+	- Only owners of the channel can be obtained.
+- Some members added to a private channel with the Owner role are failed.
+	- I don't know why this happens occasionally and what types of users are involved. 
+
