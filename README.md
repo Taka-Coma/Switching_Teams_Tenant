@@ -1,9 +1,8 @@
 # Switch_Teams_Tenant
+- Move Teams contents from one tenant to the other
+- Here, teams, channels and memberships are assumed to move.
+	- User account mapping and moving files are not included. 
 
-- Command list of PowerShell + Teams
-	- https://docs.microsoft.com/en-us/powershell/module/teams/add-teamuser?view=teams-ps
-- References
-	- https://www.oge.saga-u.ac.jp/online/teams-powershell-member-management.html (in Japanese)
 ---
 
 ## Preparation (for MacOS)
@@ -106,3 +105,10 @@ if(<role> -eq 'Member'){
 - Some members added to a private channel with the Owner role are failed.
 	- I don't know why this happens occasionally and what types of users are involved. 
 
+---
+
+## References
+- Command list of PowerShell + Teams
+	- https://docs.microsoft.com/en-us/powershell/module/teams/add-teamuser?view=teams-ps
+- Reference
+	- https://www.oge.saga-u.ac.jp/online/teams-powershell-member-management.html (in Japanese)
