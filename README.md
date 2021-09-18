@@ -2,11 +2,11 @@
 
 - Command list of PowerShell + Teams
 	- https://docs.microsoft.com/en-us/powershell/module/teams/add-teamuser?view=teams-ps
-- 参考
-	- https://www.oge.saga-u.ac.jp/online/teams-powershell-member-management.html
+- References
+	- https://www.oge.saga-u.ac.jp/online/teams-powershell-member-management.html (in Japanese)
 ---
 
-## 準備 (for MacOS)
+## Preparation (for MacOS)
 
 1. Install PowerShell
 ```
@@ -19,74 +19,74 @@ Install-Module -Name MicrosoftTeams -AllowPrerelease -Force
 ```
 - Need the prerelease version for handling information of private channels.
 
-3. ps1 ファイルの実行（PowerShell 上）
+3. Execution of a ps1 file (on PowerShell)
 ```
 ./<file_name>.ps1
 ```
 ---
 
-## 旧 Teams からデータを取得 (`getInfo.ps1`)
+## Extract Information from the old Tenant (`getInfo.ps1`)
 
-1. 旧テナントに接続
+1. Connect to the old Tenant
 ```
 ### Connect to Teams of old tenant; authentication required through a browser 
 Connect-MicrosoftTeams
 ```
 
-2. チーム一覧の取得
+2. Obtain Team list
 ```
 Get-Team -User <user_account> | Export-Csv -path teams.csv -Encoding UTF8
 ### post-edit the csv file so that including all teams you want to handle.
 ```
+- Teams only owned by the user can be obtained.
 
-3. チームメンバ取得
+3. Obtain Member List of a Team
 ```
-### Get member list of a team (specified by group_id)
 Get-TeamUser -GroupId <group_id> | Export-Csv -path members.csv -Encoding UTF8
 ```
+- Specify the team by `group_id`.
 
-4. チャネルの取得
+4. Obtain Channel List
 ```
 Get-TeamChannel -GroupId <group_id> | Export-Csv -path ./channels.csv -Encoding UTF8
 ```
 
-5. プライベートチャネルユーザ一覧の取得
+5. Obtain Member List of a Channel
 ```
 Get-TeamChannelUser -GroupId <group_id> -DisplayName <channel_name> | Export-Csv -path channel_users.csv -Encoding UTF8
 ```
+- Specify the channel by `channel_name`
 
-6. ユーザ ID のマッピング（old -> new）：python コード (`user_mapping.py`)
+6. Mapping of Old Accounts to New Accounts in Python (`user_mapping.py`)
 - Mapping file (`mapping.csv`) must be taken from authorized persons of your tenants.
 
 ---
 
-## 新 Teams へデータを移行 (`addInfo.ps1`)
+## Store Information to the new Tenant  (`addInfo.ps1`)
 
-1. 新テナントに接続
+1. Connect to the new Tenant
 ```
 ### Connect to Teams of new tenant; authentication required through a browser 
 Connect-MicrosoftTeams
 ```
 
-2. チームの作成
+2. Create Team
 ```
 ### Create a new team and hold team info in $group
 $group = New-Team -DisplayName <team_name> -Description <team_description> -Visibility <team_visibility>
 ```
 
-3. メンバの登録
+3. Add Members to the Team
 ```
 Add-TeamUser -GroupId <group_id> -User <user_account> -Role <user_role>
 ```
 
-4. チャネルの登録
+4. Add Channels to the Team
 ```
 New-TeamChannel -GroupId <group_id> -DisplayName <channel_name> -Description <channel_description> -MembershipType <channel_membership_type>
 ```
 
-5. プライベートチャネルユーザの登録
-- 注意：一度チャネルのメンバとして登録しないと所有者にできない
-	- Role = Member は使えない（Role なしで登録が Member 登録に相当）
+5. Add Members to a Private Channel
 ```
 if(<role> -eq 'Member'){
 	Add-TeamChannelUser -GroupId <group_id> -DisplayName <channel_name> -User <user_account> 
@@ -95,3 +95,4 @@ if(<role> -eq 'Member'){
 	Add-TeamChannelUser -GroupId <group_id> -DisplayName <channel_name> -User <user_account> -Role <user_role>
 }
 ```
+- An owner member must be registered as an ordinary member in advance. 
