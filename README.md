@@ -1,6 +1,6 @@
 # Switch_Teams_Tenant
 - Move Teams contents from one tenant to the other
-- Here, teams, channels and memberships are assumed to move.
+- Here, teams (groups), channels and memberships are assumed to move.
 	- User account mapping and moving files are not included. 
 
 ---
